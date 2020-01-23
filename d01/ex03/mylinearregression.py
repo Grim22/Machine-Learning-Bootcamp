@@ -71,6 +71,28 @@ dimension (number of features + 1, 1).
             for j in range(self.theta.size):
                 self.theta[j] = self.theta[j] - alpha * gradient(X_N, Y, theta_tmp)[j]
         return(self.theta)
+    
+    def normal_equation_(self,X, Y):
+        """
+        Description:
+            Perform the normal equation to get the theta parameters of the
+        hypothesis h and stock them in self.theta.
+        Args:
+            X: has to be a numpy.ndarray, a matrix of dimension (number of
+        training examples, number of features)
+            Y: has to be a numpy.ndarray, a vector of dimension (number of
+        training examples,1)
+        Returns:
+            No return expected.
+        Raises:
+            This method should not raise any Exceptions.
+        """
+        X_N = np.full((X.shape[0], X.shape[1] + 1), 1, float)
+        X_N[:, 1:] = X
+        Z = np.linalg.inv(np.dot(X_N.transpose(), X_N))
+        W = np.dot(X_N.transpose(), Y)
+        self.theta = np.dot(Z, W)
+        return(self.theta)
 
 if __name__ == "__main__":
     MyLR = MyLinearRegression
